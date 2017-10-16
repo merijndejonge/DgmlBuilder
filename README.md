@@ -4,13 +4,13 @@
 DgmlBuilder is a small `DotNet` library for generating `DGML` graphs without having to know all the details of `DGML` (the Microsoft Directed Graph Markup Language). Visual Studio contains a powerful, interactive `DGML` viewer that is used mostly for displaying code structures of your Visual Studio projects. Despite the powerful viewer, the `DGML` format is not so much in use for other purposes. It is also a bit difficult to use. The aim of `DgmlBuilder` is to make it more easy to represent your (graph-) structured data in `DGML` such that you can use the Visual Studio `DGML` viewer to display, analyze, and interact with your data.
 
 ## How it works
-`GraphBuilder` operates on a collection of objects and turns these into collections of nodes, edges, styles, and categories, based on a given ste of builders.
+`DgmlBuilder` operates on a collection of objects and turns these into collections of nodes, edges, styles, and categories, based on a given set of builders.
 
 ### Builders
-Builders are specific classes that you write that convert objects in your model to to specific graph elements.
+Builders are specific classes that you write to convert objects in your model to specific graph elements.
 
 The following builders are supported:
-* `NodeBuilder` These are builders that construct graph nodes from objects in your model. For instance, if you have a type `Component` in your model with a `Name`,  `Id`, `ComponentType` fields, you can tranform these into corresponding nodes with the following node builder:
+* `NodeBuilder` These are builders that construct graph nodes from objects in your model. For instance, if you have a type `Component` in your model with `Name`,  `Id`, and `ComponentType` fields, you can tranform these into corresponding nodes with the following node builder:
     ```csharp
     new NodeBuilder<Component>(
         x => new Node 
@@ -20,7 +20,7 @@ The following builders are supported:
                 Category = x.ComponentType
             });
     ```
-    As we'll see shortly, you can defien multiple node builders for different types in your model. For instance, if your model also contains `Interface` as type, you can instantiate a specific node builder for this type.
+    As we'll see shortly, you can define multiple node builders for different types in your model. For instance, if your model also contains `Interface` as type, you can instantiate a specific node builder for this type too.
 * `EdgeBuilder` These are builders for constructing edges in your graph. For instance, if there is a `Call` relation in your model to represent methods calls from one component to another, you could instantiate an edge builder as follows:
     ```csharp
     new LinkBuilder<Call>(
@@ -30,10 +30,10 @@ The following builders are supported:
                 Target = x.Target
             });
     ```
-* `CategoryBuilder` These are builders for adding containment to your graph. For instance, to put all your components inside there containing module.
+* `CategoryBuilder` These are builders for adding containment to your graph. For instance, to put all your components inside their containing module.
 * `StyleBuilder` These are builders for applying visual styles to your nodes and edges. For example, to use different background colors for components and interfaces.
-## Using GraphBuilder
-To use `GraphBuilder`, you create an instance of `GraphBuilder` and instantiate the rights bulders. The basic setup is like this:
+## Using DgmlBuilder
+To use `DgmlBuilder`, you instantiate `DgmlBuilder` with the builders you need. The basic setup is like this:
 ```csharp
     var builder = new DgmlBuilder
     {
@@ -57,18 +57,18 @@ To use `GraphBuilder`, you create an instance of `GraphBuilder` and instantiate 
 ```
 As you can see, all builder properties of `DgmlBuilder` are collections, allowing you to specify multiple builders for each.
 
-The `DgmlBuilder` class supports to `Build` methods:
+The `DgmlBuilder` class supports two `Build` methods:
 * The first, simply accepts a collection of objects:
     ```csharp
     public DirectedGraph Build(IEnumerable<object> elements)
     ```
-* The second supprts multiple collections:
+* The second supports multiple collections:
     ```csharp
     public DirectedGraph Build(params IEnumerable<object>[] elements)`
     ```
 Both build methods will apply the configured builders to all elements and produces a `DGML` graph as output.
 
-For example, if you have your components, interfaces, and calls contained in separate colletions, could do the following to generate a corresponding `DGML` graph:
+For example, if you have your components, interfaces, and calls contained in separate colletions, you can generate the corresponding `DGML` graph as follows:
 ```csharp
 var graph = builder.Build(components, interfaces, calls);
 ```
