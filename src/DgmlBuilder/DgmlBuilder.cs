@@ -157,7 +157,7 @@ namespace OpenSoftware.DgmlTools
             var items = builder?.Build(element);
             if (items == null) yield break;
 
-            foreach (var item in items)
+            foreach (var item in items.Where(x => x != null))
             {
                 yield return item;
             }
