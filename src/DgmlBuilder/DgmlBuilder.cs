@@ -27,11 +27,17 @@ namespace OpenSoftware.DgmlTools
         /// Property to access global DGML properties.
         /// </summary>
         public List<Property> Properties { get; } = new List<Property>();
-
-        public DgmlBuilder()
+        /// <summary>
+        /// Creates a new instance of the DgmlBuilder class.
+        /// </summary>
+        /// <param name="withSizedNodes">Indicates whether the size of a node should reflect the number of connected edges (default true).</param>
+        public DgmlBuilder(bool withSizedNodes = true)
         {
-            AddDefaultStyles();
-            AddDefaultProperties();
+            if (withSizedNodes)
+            {
+                AddDefaultStyles();
+                AddDefaultProperties();
+            }
         }
 
         private void AddDefaultProperties()
