@@ -20,5 +20,7 @@ namespace OpenSoftware.DgmlTools.Model
         public string Stroke { get; set; }
         [XmlAttribute]
         public string Label { get; set; }
+        [XmlAttribute]
+        public string Description { get; set; }
     }
 }
