@@ -14,7 +14,7 @@
     <PackageLicenseUrl>https://github.com/merijndejonge/DgmlBuilder/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Merijn de Jonge</Copyright>
     <PackageTags>cli dgml visualization</PackageTags>
-    <Version>1.2</Version>
+    <Version>1.3</Version>
     <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
