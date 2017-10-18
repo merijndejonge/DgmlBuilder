@@ -9,27 +9,28 @@ namespace OpenSoftware.DgmlTools.Builders
         protected LinkBuilder(Type type) : base(type)
         {
         }
-        public abstract IEnumerable<Link> Build(object node);
     }
-    public class LinkBuilder<T> : LinkBuilder, IBuilder<Link>
+
+    public class LinksBuilder<T> : LinkBuilder, IBuilder<Link>
     {
         private readonly Func<T, IEnumerable<Link>> _builder;
 
-        public LinkBuilder(Func<T, IEnumerable<Link>> builder)
+        public LinksBuilder(Func<T, IEnumerable<Link>> builder)
             : base(typeof(T))
         {
             _builder = builder;
         }
 
-        public LinkBuilder(Func<T, Link> builder)
-            : base(typeof(T))
+        IEnumerable<Link> IBuilder<Link>.Build(object node)
         {
-            _builder = x => new[] {builder(x)};
+            return _builder((T) node);
         }
+    }
 
-        public override IEnumerable<Link> Build(object node)
+    public class LinkBuilder<T> : LinksBuilder<T>
+    {
+        public LinkBuilder(Func<T, Link> builder) : base(x => new[] {builder(x)})
         {
-            return _builder((T)node);
         }
     }
 }

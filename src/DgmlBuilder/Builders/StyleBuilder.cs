@@ -9,27 +9,28 @@ namespace OpenSoftware.DgmlTools.Builders
         protected StyleBuilder(Type type) : base(type)
         {
         }
-        public abstract IEnumerable<Style> Build(object node);
     }
-    public class StyleBuilder<T> : StyleBuilder, IBuilder<Style>
+
+    public class StylesBuilder<T> : StyleBuilder, IBuilder<Style>
     {
         private readonly Func<T, IEnumerable<Style>> _builder;
 
-        public StyleBuilder(Func<T, IEnumerable<Style>> builder)
+        public StylesBuilder(Func<T, IEnumerable<Style>> builder)
             : base(typeof(T))
         {
             _builder = builder;
         }
 
-        public StyleBuilder(Func<T, Style> builder)
-            : base(typeof(T))
+        IEnumerable<Style> IBuilder<Style>.Build(object element)
         {
-            _builder = x => new[] {builder(x)};
+            return _builder((T) element);
         }
+    }
 
-        public override IEnumerable<Style> Build(object element)
+    public class StyleBuilder<T> : StylesBuilder<T>
+    {
+        public StyleBuilder(Func<T, Style> builder) : base(x => new[] {builder(x)})
         {
-            return _builder((T)element);
         }
     }
 }
