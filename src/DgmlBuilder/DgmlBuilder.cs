@@ -7,6 +7,7 @@ namespace OpenSoftware.DgmlTools
 {
     public class DgmlBuilder
     {
+        private readonly List<GraphAnalysis> _graphAnalyses;
         private List<Link> _links = new List<Link>();
         private List<Node> _nodes = new List<Node>();
         private List<Category> _categories = new List<Category>();
@@ -16,54 +17,15 @@ namespace OpenSoftware.DgmlTools
 
         public IEnumerable<CategoryBuilder> CategoryBuilders { get; set; }
         public IEnumerable<LinkBuilder> LinkBuilders { get; set; }
-
         public IEnumerable<StyleBuilder> StyleBuilders { get; set; }
 
         /// <summary>
-        /// Property to access global DGML styles
-        /// </summary>
-        public List<Style> Styles { get; } = new List<Style>();
-        /// <summary>
-        /// Property to access global DGML properties.
-        /// </summary>
-        public List<Property> Properties { get; } = new List<Property>();
-        /// <summary>
         /// Creates a new instance of the DgmlBuilder class.
         /// </summary>
-        /// <param name="withSizedNodes">Indicates whether the size of a node should reflect the number of connected edges (default true).</param>
-        public DgmlBuilder(bool withSizedNodes = true)
+        /// <param name="graphAnalyses">optional collection of graph analysis to apply</param>
+        public DgmlBuilder(params GraphAnalysis[] graphAnalyses)
         {
-            if (withSizedNodes)
-            {
-                AddDefaultStyles();
-                AddDefaultProperties();
-            }
-        }
-
-        private void AddDefaultProperties()
-        {
-            // Node count
-            Properties.Add(new Property
-            {
-                Id = "Count",
-                DataType = "System.Int32",
-                Label = "Count",
-                Description = "Count"
-            });
-        }
-
-        private void AddDefaultStyles()
-        {
-            Styles.Add(new Style
-            {
-                TargetType = "Node",
-                GroupLabel = "Count",
-                ValueLabel = "Function",
-                Setter = new List<Setter>
-                {
-                    new Setter {Property = "FontSize", Expression = "14+(Count*2)",},
-                }
-            });
+            _graphAnalyses = graphAnalyses.ToList();
         }
 
         /// <summary>
@@ -91,64 +53,22 @@ namespace OpenSoftware.DgmlTools
         private DirectedGraph BuildGraph()
         {
             var graph = new DirectedGraph();
-            _nodes.ForEach(x => graph.Nodes.Add(x));
-            _links.ForEach(x => graph.Links.Add(x));
-            _categories.ForEach(x => graph.Categories.Add(x));
-            _styles.ForEach(x => graph.Styles.Add(x));
 
+            _nodes.ForEach(graph.Nodes.Add);
+            _links.ForEach(graph.Links.Add);
+            _categories.ForEach(graph.Categories.Add);
+            _styles.ForEach(graph.Styles.Add);
 
-            //// Unreferenced nodes
-            //graph.Styles.Add(new Style
-            //{
-            //    TargetType = "Node",
-            //    GroupLabel = "Unreferenced",
-            //    ValueLabel = "True",
-            //    Condition =
-            //        new List<Condition>
-            //        {
-            //            new Condition {Expression = "IsReferenced='false'"},
-            //            new Condition {Expression = "HasCategory('Signals')"}
-            //        },
-            //    Setter =
-            //        new List<Setter>
-            //        {
-            //            new Setter
-            //            {
-            //                Property = "Icon",
-            //                Value =
-            //                    "pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/kpi_red_sym2_large.png"
-            //            }
-            //        }
-            //});
-            graph.Styles = Styles;
-            graph.Properties = Properties;
-
-            Annotategraph(graph);
+            _graphAnalyses.ForEach(x => ExecuteAnalysis(x, graph));
+            
             return graph;
         }
 
-        /// <summary>
-        /// Add node counting and is-referenced info to nodes in the graph
-        /// </summary>
-        /// <param name="graph"></param>
-        private void Annotategraph(DirectedGraph graph)
+        private static void ExecuteAnalysis(GraphAnalysis analysis, DirectedGraph graph)
         {
-            foreach (var node in graph.Nodes)
-            {
-                var count = _links.Count(x => (x.Source == node.Id || x.Target == node.Id) && x.Category != "Contains");
-                if (count > 0)
-                {
-                    node.IsReferenced = true;
-                    node.Count = count;
-                }
-                else
-                {
-                    if (graph.Categories.Any(x => x.Id == node.Id))
-                    {
-                        node.IsReferenced = true;
-                    }
-                }
-            }
+            analysis.Styles.ToList().ForEach(s => graph.Styles.Add(s));
+            analysis.Properties.ToList().ForEach(p => graph.Properties.Add(p));
+            analysis.Analysis(graph);
         }
 
         private static IEnumerable<T> Build<T>(object element, IEnumerable<Builder> builders) where T : class
@@ -165,9 +85,13 @@ namespace OpenSoftware.DgmlTools
 
         private void BuildElements(IEnumerable<object> elements)
         {
+            _nodes.Clear();
+            _links.Clear();
+            _categories.Clear();
+            _styles.Clear();
+
             foreach (var element in elements)
             {
-
                 Build<Node>(element, NodeBuilders).ToList().ForEach(_nodes.Add);
                 Build<Link>(element, LinkBuilders).ToList().ForEach(_links.Add);
                 Build<Category>(element, CategoryBuilders).ToList().ForEach(_categories.Add);

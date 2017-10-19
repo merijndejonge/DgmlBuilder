@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace OpenSoftware.DgmlTools.Model
 {
-    public class Link
+    public partial class Link : ICustomPropertiesProvider
     {
         [XmlAttribute]
         public string Source { get; set; }
@@ -22,5 +23,7 @@ namespace OpenSoftware.DgmlTools.Model
         public string Label { get; set; }
         [XmlAttribute]
         public string Description { get; set; }
+
+        public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
     }
 }

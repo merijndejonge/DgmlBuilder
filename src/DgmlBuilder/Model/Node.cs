@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace OpenSoftware.DgmlTools.Model
 {
-    public class Node
+    public partial class Node : ICustomPropertiesProvider
     {
         [XmlAttribute]
         public string Id { get; set; }
@@ -17,10 +17,8 @@ namespace OpenSoftware.DgmlTools.Model
         [XmlElement("Category")]
         public List<CategoryRef> CategoryRefs { get; set; }
         [XmlAttribute]
-        public bool IsReferenced{ get; set; }
-        [XmlAttribute]
-        public int Count{ get; set; }
-        [XmlAttribute]
         public string Reference { get; set; }
+
+        public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
     }
 }
