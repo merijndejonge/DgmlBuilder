@@ -10,7 +10,7 @@ DgmlBuilder is a small `DotNet` library for generating `DGML` graphs without hav
 Builders are specific classes that you write to convert objects in your model to specific graph elements.
 
 The following builders are supported:
-* `NodeBuilder` These are builders that construct graph nodes from objects in your model. For instance, if you have a type `Component` in your model with `Name`,  `Id`, and `ComponentType` fields, you can tranform these into corresponding nodes with the following node builder:
+* `NodeBuilder` These are builders that construct graph nodes from objects in your model. For instance, if you have a type `Component` in your model with `Name`,  `Id`, and `ComponentType` fields, you can transform these into corresponding nodes with the following node builder:
     ```csharp
     new NodeBuilder<Component>(
         x => new Node 
@@ -68,7 +68,7 @@ The `DgmlBuilder` class supports two `Build` methods:
     ```
 Both build methods will apply the configured builders to all elements and produces a `DGML` graph as output.
 
-For example, if you have your components, interfaces, and calls contained in separate colletions, you can generate the corresponding `DGML` graph as follows:
+For example, if you have your components, interfaces, and calls contained in separate collections, you can generate the corresponding `DGML` graph as follows:
 ```csharp
 var graph = builder.Build(components, interfaces, calls);
 ```
@@ -87,4 +87,4 @@ You can now open the file `my-graph.dgml` in the `DGML` viewer of Visual Studio 
 ## More info
 Source code of `DgmlBuilder` is available at [GitHub](https://github.com/merijndejonge/DgmlBuilder). Nuget packages are available at [Nuget.org](https://www.nuget.org/packages/DgmlBuilder).
 
-`DgmlBuilder` is distributed under the [Apache 2.0 License](https://github.com/merijndejonge/OptionParser/blob/master/LICENSE).
+`DgmlBuilder` is distributed under the [Apache 2.0 License](https://github.com/merijndejonge/DgmlBuilder/blob/master/LICENSE).
