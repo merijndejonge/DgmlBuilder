@@ -7,9 +7,9 @@ namespace OpenSoftware.DgmlTools.Analyses
     /// <summary>
     /// Class that sizes each node in the graph relative to the number of edges of the node.
     /// </summary>
-    public class NodeCountAnalysis : GraphAnalysis
+    public class HubNodeAnalysis : GraphAnalysis
     {
-        public NodeCountAnalysis(string fontGrowExpression = "14+(Count*2)") 
+        public HubNodeAnalysis(string fontGrowExpression = "14+(Count*2)") 
         {
             Analysis = PerformNodeCountAnalysis;
             Properties = new[]
