@@ -12,7 +12,7 @@ namespace OpenSoftware.DgmlTools.Analyses
         private const string CrossIcon =
                 @"pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/kpi_red_sym2_large.png"
             ;
-            
+
         public NodeReferencedAnalysis()
         {
             Analysis = PerformNodeReferencedAnalysis;
@@ -55,9 +55,9 @@ namespace OpenSoftware.DgmlTools.Analyses
         {
             foreach (var node in graph.Nodes)
             {
-                var count = graph.Links.Count(x =>
+                var isReferenced = graph.Links.Any(x =>
                     x.Target == node.Id && x.Category != "Contains");
-                node.Properties.Add("IsReferenced", count > 0);
+                node.Properties.Add("IsReferenced", isReferenced);
             }
         }
     }
