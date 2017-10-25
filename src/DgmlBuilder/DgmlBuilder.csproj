@@ -13,7 +13,7 @@
     <RepositoryUrl>https://github.com/merijndejonge/DgmlBuilder.git</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/merijndejonge/DgmlBuilder/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Merijn de Jonge</Copyright>
-    <PackageTags>cli dgml visualization</PackageTags>
+    <PackageTags>DGML modeling visualization</PackageTags>
     <Version>1.6</Version>
     <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
