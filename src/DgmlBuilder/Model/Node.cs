@@ -13,6 +13,8 @@ namespace OpenSoftware.DgmlTools.Model
         public string Category { get; set; }
         [XmlAttribute]
         public string Group { get; set; }
+        [XmlAttribute]
+        public string Description { get; set; }
 
         [XmlElement("Category")]
         public List<CategoryRef> CategoryRefs { get; set; }
