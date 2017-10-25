@@ -113,9 +113,9 @@ namespace OpenSoftware.DgmlTools
                     _styles.Add(x);
                 });
             }
-            foreach (var link in _nodes)
+            foreach (var node in _nodes)
             {
-                Build<Style>(link, StyleBuilders).ToList().ForEach(x =>
+                Build<Style>(node, StyleBuilders).ToList().ForEach(x =>
                 {
                     x.Condition = new List<Condition>
                     {
