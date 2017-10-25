@@ -156,7 +156,7 @@ namespace OpenSoftware.DgmlTools
             // create links betwen nodes and categories
             foreach (var category in _categories)
             {
-                foreach (var node in _nodes.Where(c => c.Category == category.Id))
+                foreach (var node in _nodes.Where(c => c.Category == category.Id || c.CategoryRefs != null && c.CategoryRefs.Any(x=>x.Ref == category.Id)))
                 {
                     _links.Add(new Link
                     {
