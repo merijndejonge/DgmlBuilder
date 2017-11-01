@@ -71,15 +71,17 @@ namespace OpenSoftware.DgmlTools
             analysis.Analysis(graph);
         }
 
-        private static IEnumerable<T> Build<T>(object element, IEnumerable<Builder> builders) where T : class
+        private static IEnumerable<T> Build<T>(object element, IEnumerable<Builder> builderCollection) where T : class
         {
-            var builder = (IBuilder<T>) FindBuilder(builders, element);
-            var items = builder?.Build(element);
-            if (items == null) yield break;
-
-            foreach (var item in items.Where(x => x != null))
+            var builders = FindBuilders(builderCollection, element).OfType<IBuilder<T>> ();
+            foreach (var builder in builders)
             {
-                yield return item;
+                var items = builder.Build(element);
+                if (items == null) continue;
+                foreach (var item in items.Where(x => x != null))
+                {
+                    yield return item;
+                }
             }
         }
 
@@ -169,11 +171,15 @@ namespace OpenSoftware.DgmlTools
             }
         }
 
-        private static Builder FindBuilder(IEnumerable<Builder> builders, object element)
+        private static IEnumerable<Builder> FindBuilders(IEnumerable<Builder> builders, object element)
         {
-            if (builders == null) return null;
+            if (builders == null) yield break;
             var type = element.GetType();
-            return builders.FirstOrDefault(x => x.Type.IsAssignableFrom(type));
+            var matchingBuilders =builders.Where(x => x.Type.IsAssignableFrom(type));
+            foreach (var matchingBuilder in matchingBuilders)
+            {
+                yield return matchingBuilder;
+            }
         }
     }
 }
