@@ -17,10 +17,10 @@ namespace OpenSoftware.DgmlTools.Model
         public string Description { get; set; }
 
         [XmlElement("Category")]
-        public List<CategoryRef> CategoryRefs { get; set; }
+        public List<CategoryRef> CategoryRefs { get; set; } = new List<CategoryRef>();
         [XmlAttribute]
         public string Reference { get; set; }
-
+        [XmlIgnore]
         public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
     }
 }

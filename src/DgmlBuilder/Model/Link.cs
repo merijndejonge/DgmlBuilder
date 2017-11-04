@@ -23,7 +23,7 @@ namespace OpenSoftware.DgmlTools.Model
         public string Label { get; set; }
         [XmlAttribute]
         public string Description { get; set; }
-
+        [XmlIgnore]
         public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
     }
 }

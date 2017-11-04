@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -7,12 +9,9 @@ namespace OpenSoftware.DgmlTools.Model
 {
     public static class SerializerHelper
     {
-        private static void ToXmlGeneric(object obj, XmlWriter writer)
+        private static void WriteXmlAttributes(XmlWriter writer, object obj)
         {
-            var properties = obj.GetType().GetProperties();
-            var xmlAttributes =
-                properties.Where(x => x.GetCustomAttributes(typeof(XmlAttributeAttribute), true).Any());
-
+            var xmlAttributes = GetXmlAttributes(obj);
             foreach (var xmlAttribute in xmlAttributes)
             {
                 var value = xmlAttribute.GetValue(obj);
@@ -21,7 +20,10 @@ namespace OpenSoftware.DgmlTools.Model
                     writer.WriteAttributeString(xmlAttribute.Name, value.ToString());
                 }
             }
-            var xmlElements = properties.Where(x => x.GetCustomAttributes(typeof(XmlElementAttribute), true).Any());
+        }
+        private static void WriteXmlElements(XmlWriter writer, object obj)
+        {
+            var xmlElements = GetXmlElements(obj);
             foreach (var xmlElement in xmlElements)
             {
                 var value = xmlElement.GetValue(obj);
@@ -33,7 +35,8 @@ namespace OpenSoftware.DgmlTools.Model
                     {
                         var elementName = attribute.ElementName ?? element.GetType().Name;
                         writer.WriteStartElement(elementName);
-                        ToXmlGeneric(element, writer);
+                        WriteXmlAttributes(writer, element);
+                        WriteXmlElements(writer, element);
                         writer.WriteEndElement();
                     }
                 }
@@ -44,15 +47,32 @@ namespace OpenSoftware.DgmlTools.Model
                 }
             }
         }
+
+        private static IEnumerable<PropertyInfo> GetXmlAttributes(object obj)
+        {
+            var properties = obj.GetType().GetProperties();
+            return 
+                properties.Where(x => x.GetCustomAttributes(typeof(XmlAttributeAttribute), true).Any()).ToArray();
+        }
+
+        private static IEnumerable<PropertyInfo> GetXmlElements(object obj)
+        {
+            var properties = obj.GetType().GetProperties();
+            return
+                properties
+                .Where(x => x.GetCustomAttributes(typeof(XmlAttributeAttribute), true).Any() == false)
+                .Where(x => x.GetCustomAttributes(typeof(XmlIgnoreAttribute), true).Any() == false)
+                .ToArray();
+        }
+
         internal static void ToXml<T>(this T obj, XmlWriter writer) where T : ICustomPropertiesProvider
         {
-            ToXmlGeneric(obj, writer);
-
+            WriteXmlAttributes(writer, obj);
             foreach (var dataElement in obj.Properties)
             {
                 writer.WriteAttributeString(dataElement.Key, dataElement.Value.ToString());
             }
-
+            WriteXmlElements(writer, obj);
         }
     }
 }
