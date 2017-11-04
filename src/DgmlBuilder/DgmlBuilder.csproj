@@ -14,7 +14,7 @@
     <PackageLicenseUrl>https://github.com/merijndejonge/DgmlBuilder/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>Merijn de Jonge</Copyright>
     <PackageTags>DGML modeling visualization</PackageTags>
-    <Version>1.7</Version>
+    <Version>1.8</Version>
     <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
