@@ -1,7 +1,7 @@
 # TypesVisualizer
 
 This folder contains the implementation of `TypesVisualizer`. This is a small program that demonstrates most features of `DgmlBuilder`.
-
+[[clas-diagram.png|alt=class diagram]]
 # Usage
 With this project added to your solution, you can use the tool as follows:
 ```csharp
