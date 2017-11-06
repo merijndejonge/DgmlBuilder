@@ -55,7 +55,7 @@ namespace OpenSoftware.DgmlTools
 
         private static Node Class2Node(Type type)
         {
-            if (type.IsClass == false && type.IsValueType == false) return null;
+            if (type.IsClass == false) return null;
 
             var node = new Node
             {
