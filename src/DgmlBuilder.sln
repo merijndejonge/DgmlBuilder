@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgmlBuilder", "DgmlBuilder\DgmlBuilder.csproj", "{582E63A3-5B1C-4E05-8BFC-8468CE62B32E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypesVisualizer", "examples\TypesVisualizer\TypesVisualizer.csproj", "{353BE377-C5BB-42EB-93C2-B3974F10ECB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{84C4D32F-C5B7-4600-B639-D4E2F9687FB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,12 +19,18 @@ Global
 		{582E63A3-5B1C-4E05-8BFC-8468CE62B32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{582E63A3-5B1C-4E05-8BFC-8468CE62B32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{582E63A3-5B1C-4E05-8BFC-8468CE62B32E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81F5B069-5355-4C2C-90DC-CD3E62943DC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81F5B069-5355-4C2C-90DC-CD3E62943DC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81F5B069-5355-4C2C-90DC-CD3E62943DC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81F5B069-5355-4C2C-90DC-CD3E62943DC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{353BE377-C5BB-42EB-93C2-B3974F10ECB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{353BE377-C5BB-42EB-93C2-B3974F10ECB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{353BE377-C5BB-42EB-93C2-B3974F10ECB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{353BE377-C5BB-42EB-93C2-B3974F10ECB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{353BE377-C5BB-42EB-93C2-B3974F10ECB7} = {84C4D32F-C5B7-4600-B639-D4E2F9687FB9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {61536D82-7C0D-43E0-BF84-3E5C0DCE6A7D}
 	EndGlobalSection
 EndGlobal

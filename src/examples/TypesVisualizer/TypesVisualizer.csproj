@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>OpenSoftware.DgmlTools.TypesVisualizer</AssemblyName>
+    <RootNamespace>OpenSoftware.DgmlTools</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DgmlBuilder\DgmlBuilder.csproj" />
+  </ItemGroup>
+
+</Project>
