@@ -7,7 +7,8 @@ With this project added to your solution, you can use the tool as follows:
 ```csharp
 
     // Create a collection of types. This is a simple way of doing that
-    // but you may want to use a more dedicated way.
+    // but you may want to have a look at the example files to see how you can
+    // also make use of the `TypesLoader` class.
     var types = assembly.GetTypes();
 
     // Use the TypesVisualizer class to create a DGML graph from the types collection

@@ -159,7 +159,8 @@ Your analysis will typically not only decorate the graph with computed propertie
 ```
 This style adds an icon to nodes for which the property `IsReferenced` equals `false`. More information about creating custom (conditional) styles can be found at https://docs.microsoft.com/en-us/visualstudio/modeling/customize-code-maps-by-editing-the-dgml-files.
 ## Examples
-[GitHub](https://github.com/merijndejonge/DgmlBuilder/tree/master/src/examples/TypesVisualizer) contains `TypesVisualizer`, a small tool to visualize a collection of types in DGML. It demonstrates most features of DgmlBuilder.
+The
+[GitHub](https://github.com/merijndejonge/DgmlBuilder/tree/master/src/examples/TypesVisualizer) repository of `DgmlBuilder` contains [`TypesVisualizer`](https://github.com/merijndejonge/DgmlBuilder/tree/master/src/examples/TypesVisualizer), which is a small tool to capture the structure and relation ships of collections of types in a DGML graph. This tool demonstrates most features of DgmlBuilder.
 
 ## More info
 * Source code of `DgmlBuilder` is available at [GitHub](https://github.com/merijndejonge/DgmlBuilder). Nuget packages are available at [Nuget.org](https://www.nuget.org/packages/DgmlBuilder).
