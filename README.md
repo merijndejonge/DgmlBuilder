@@ -77,11 +77,15 @@ var graph = builder.Build(components, interfaces, calls);
 
 The resulting `DGML` graph is a serializable object. This means that with the standard .Net serializers you can save the corresponding graph to disk. E.g., as follows:
 ```csharp
-using (var writer = new StreamWriter("my-graph.dgml"))
+graph.WriteToFile("my-graph.dgml");
 {
     var serializer = new XmlSerializer(typeof(DirectedGraph));
     serializer.Serialize(writer, graph);
 }
+```
+There is also a convenient method available that does exactly this:
+```csharp
+graph.WriteToFile("my-graph.dgml");
 ```
 You can now open the file `my-graph.dgml` in the `DGML` viewer of Visual Studio to inspect and analyze the graph.
 ## Graph analyses

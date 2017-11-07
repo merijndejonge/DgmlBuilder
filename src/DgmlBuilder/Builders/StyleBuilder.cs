@@ -14,11 +14,18 @@ namespace OpenSoftware.DgmlTools.Builders
     public class StylesBuilder<T> : StyleBuilder, IBuilder<Style>
     {
         private readonly Func<T, IEnumerable<Style>> _builder;
+        private readonly Func<T, bool> _accept;
 
-        public StylesBuilder(Func<T, IEnumerable<Style>> builder)
+        public StylesBuilder(Func<T, IEnumerable<Style>> builder, Func<T, bool> accept = null)
             : base(typeof(T))
         {
             _builder = builder;
+            _accept = accept;
+        }
+
+        public bool Accept(object node)
+        {
+            return _accept?.Invoke((T) node) ?? true;
         }
 
         IEnumerable<Style> IBuilder<Style>.Build(object element)
@@ -29,7 +36,7 @@ namespace OpenSoftware.DgmlTools.Builders
 
     public class StyleBuilder<T> : StylesBuilder<T>
     {
-        public StyleBuilder(Func<T, Style> builder) : base(x => new[] {builder(x)})
+        public StyleBuilder(Func<T, Style> builder, Func<T, bool> accept = null) : base(x => new[] {builder(x)}, accept)
         {
         }
     }

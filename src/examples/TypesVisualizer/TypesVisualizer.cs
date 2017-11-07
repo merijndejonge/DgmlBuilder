@@ -30,8 +30,8 @@ namespace OpenSoftware.DgmlTools
             {
                 NodeBuilders = new[]
                 {
-                    new NodeBuilder<Type>(Class2Node),
-                    new NodeBuilder<Type>(Interface2Node)
+                    new NodeBuilder<Type>(Class2Node, x => x.IsClass),
+                    new NodeBuilder<Type>(Interface2Node, x => x.IsInterface)
                 },
                 LinkBuilders = new[]
                 {
@@ -44,10 +44,10 @@ namespace OpenSoftware.DgmlTools
                 CategoryBuilders = new[] {new CategoryBuilder<Type>(Type2Category)},
                 StyleBuilders = new StyleBuilder[]
                 {
-                    new StyleBuilder<Node>(InterfaceStyle),
-                    new StyleBuilder<Node>(AbstractStyle),
-                    new StyleBuilder<Link>(AssociationStyle),
-                    new StyleBuilder<Link>(InheritanceStyle)
+                    new StyleBuilder<Node>(InterfaceStyle, x => x.HasCategory(InterfaceType)),
+                    new StyleBuilder<Node>(AbstractStyle, x => x.HasCategory(AbstractClassType)),
+                    new StyleBuilder<Link>(AssociationStyle, x => x.HasCategory(AssociationRelation)),
+                    new StyleBuilder<Link>(InheritanceStyle, x => x.HasCategory(InheritanceRelation))
                 }
             };
             return builder.Build(typesCollection);
@@ -56,8 +56,6 @@ namespace OpenSoftware.DgmlTools
 
         private static Node Class2Node(Type type)
         {
-            if (type.IsClass == false) return null;
-
             var node = new Node
             {
                 Category = ClassType,
@@ -74,8 +72,6 @@ namespace OpenSoftware.DgmlTools
 
         public static Node Interface2Node(Type type)
         {
-            if (type.IsInterface == false) return null;
-
             return new Node
             {
                 Category = InterfaceType,
@@ -172,7 +168,6 @@ namespace OpenSoftware.DgmlTools
 
         private static Style InterfaceStyle(Node node)
         {
-            if (node.Category != InterfaceType) return null;
             return new Style
             {
                 GroupLabel = InterfaceType,
@@ -185,8 +180,6 @@ namespace OpenSoftware.DgmlTools
 
         private static Style AbstractStyle(Node node)
         {
-            if (node.CategoryRefs != null && node.CategoryRefs.Any(x => x.Ref == AbstractClassType) == false)
-                return null;
             return new Style
             {
                 GroupLabel = AbstractClassType,
@@ -199,37 +192,28 @@ namespace OpenSoftware.DgmlTools
 
         private static Style AssociationStyle(Link link)
         {
-            if (link.Category == AssociationRelation)
+            return new Style
             {
-                return new Style
+                GroupLabel = link.Category,
+                Setter = new List<Setter>
                 {
-                    GroupLabel = link.Category,
-                    Setter = new List<Setter>
-                    {
-                        new Setter {Property = "Stroke", Value = "LightBlue"}
-                    }
-                };
-            }
-            return null;
+                    new Setter {Property = "Stroke", Value = "LightBlue"}
+                }
+            };
         }
 
         private static Style InheritanceStyle(Link link)
         {
-            if (link.Category == InheritanceRelation)
+            return new Style
             {
-                return new Style
+                GroupLabel = link.Category,
+                Setter = new List<Setter>
                 {
-                    GroupLabel = link.Category,
-                    Setter = new List<Setter>
-                    {
-                        new Setter {Property = "StrokeDashArray", Value = "2,2"},
-                        new Setter {Property = "Stroke", Value = "Green"}
-                    }
-                };
-            }
-            return null;
+                    new Setter {Property = "StrokeDashArray", Value = "2,2"},
+                    new Setter {Property = "Stroke", Value = "Green"}
+                }
+            };
         }
-
 
         private static Link MakeInheritanceLink(Type type, Type baseType)
         {

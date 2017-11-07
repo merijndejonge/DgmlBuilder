@@ -17,11 +17,18 @@ namespace OpenSoftware.DgmlTools.Builders
     public class CategoriesBuilder<T> : CategoryBuilder, IBuilder<Category>
     {
         private readonly Func<T, IEnumerable<Category>> _builder;
+        private readonly Func<T, bool> _accept;
 
-        public CategoriesBuilder(Func<T, IEnumerable<Category>> builder)
+        public CategoriesBuilder(Func<T, IEnumerable<Category>> builder, Func<T, bool> accept = null)
             : base(typeof(T))
         {
             _builder = builder;
+            _accept = accept;
+        }
+
+        public bool Accept(object node)
+        {
+            return _accept?.Invoke((T) node) ?? true;
         }
 
         public override IEnumerable<Category> Build(object node)
@@ -32,7 +39,7 @@ namespace OpenSoftware.DgmlTools.Builders
 
     public class CategoryBuilder<T> : CategoriesBuilder<T>
     {
-        public CategoryBuilder(Func<T, Category> builder) : base(x => new[] {builder(x)})
+        public CategoryBuilder(Func<T, Category> builder, Func<T, bool> accept = null) : base(x => new[] {builder(x)}, accept)
         {
         }
     }

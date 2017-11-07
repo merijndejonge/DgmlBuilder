@@ -13,12 +13,8 @@ With this project added to your solution, you can use the tool as follows:
     // Use the TypesVisualizer class to create a DGML graph from the types collection
     var graph = TypesVisualizer.Types2Dgml(types);
 
-    // This code is to serialize the graph to a file
-    using (var writer = new StreamWriter(@"my-class-diagram.dgml"))
-    {
-        var serializer = new XmlSerializer(typeof(DirectedGraph));
-        serializer.Serialize(writer, graph);
-    }
+    // Write the graph a file
+    graph.WriteToFile("my-class-diagram.dgml");
 ```
 # Implementation
 The `Types2Dgml` method makes use of `DgmlBuilder`. Have a look at the code to learn how `DgmlBuilder` can easily be used to create nice graphs.

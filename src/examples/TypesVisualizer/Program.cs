@@ -1,7 +1,5 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Xml.Serialization;
 using OpenSoftware.DgmlTools.Model;
 using OpenSoftware.DgmlTools.Reflection;
 
@@ -22,12 +20,7 @@ namespace OpenSoftware.DgmlTools
             {
                 var types = loader.Load().ToArray();
                 var graph = TypesVisualizer.Types2Dgml(types);
-
-                using (var writer = new StreamWriter(@"../../class-diagram.dgml"))
-                {
-                    var serializer = new XmlSerializer(typeof(DirectedGraph));
-                    serializer.Serialize(writer, graph);
-                }
+                graph.WriteToFile(@"../../class-diagram.dgml");
             }
         }
     }

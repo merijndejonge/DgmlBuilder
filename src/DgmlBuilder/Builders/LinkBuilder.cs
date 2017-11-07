@@ -14,11 +14,18 @@ namespace OpenSoftware.DgmlTools.Builders
     public class LinksBuilder<T> : LinkBuilder, IBuilder<Link>
     {
         private readonly Func<T, IEnumerable<Link>> _builder;
+        private readonly Func<T, bool> _accept;
 
-        public LinksBuilder(Func<T, IEnumerable<Link>> builder)
+        public LinksBuilder(Func<T, IEnumerable<Link>> builder, Func<T, bool> accept = null)
             : base(typeof(T))
         {
             _builder = builder;
+            _accept = accept;
+        }
+
+        public bool Accept(object node)
+        {
+            return _accept?.Invoke((T) node) ?? true;
         }
 
         IEnumerable<Link> IBuilder<Link>.Build(object node)
@@ -29,7 +36,7 @@ namespace OpenSoftware.DgmlTools.Builders
 
     public class LinkBuilder<T> : LinksBuilder<T>
     {
-        public LinkBuilder(Func<T, Link> builder) : base(x => new[] {builder(x)})
+        public LinkBuilder(Func<T, Link> builder, Func<T, bool> accept = null) : base(x => new[] {builder(x)}, accept)
         {
         }
     }

@@ -76,6 +76,7 @@ namespace OpenSoftware.DgmlTools
             var builders = FindBuilders(builderCollection, element).OfType<IBuilder<T>> ();
             foreach (var builder in builders)
             {
+                if (builder.Accept(element) == false) continue;
                 var items = builder.Build(element);
                 if (items == null) continue;
                 foreach (var item in items.Where(x => x != null))
