@@ -23,8 +23,9 @@ namespace OpenSoftware.DgmlTools
         /// </summary>
         /// <param name="types"></param>
         /// <returns></returns>
-        public static DirectedGraph Types2Dgml(IReadOnlyCollection<Type> types)
+        public static DirectedGraph Types2Dgml(IEnumerable<Type> types)
         {
+            var typesCollection = types.ToArray();
             var builder = new DgmlBuilder(new HubNodeAnalysis())
             {
                 NodeBuilders = new[]
@@ -34,13 +35,13 @@ namespace OpenSoftware.DgmlTools
                 },
                 LinkBuilders = new[]
                 {
-                    new LinksBuilder<Type>(x => Property2Links(x, types)),
-                    new LinksBuilder<Type>(x => Field2Links(x, types)),
-                    new LinksBuilder<Type>(x => TypeInheritace2Links(x, types)),
-                    new LinksBuilder<Type>(x => GenericType2Links(x, types)),
-                    new LinksBuilder<Type>(x => ConstructorInjection2Links(x, types)),
+                    new LinksBuilder<Type>(x => Property2Links(x, typesCollection)),
+                    new LinksBuilder<Type>(x => Field2Links(x, typesCollection)),
+                    new LinksBuilder<Type>(x => TypeInheritace2Links(x, typesCollection)),
+                    new LinksBuilder<Type>(x => GenericType2Links(x, typesCollection)),
+                    new LinksBuilder<Type>(x => ConstructorInjection2Links(x, typesCollection)),
                 },
-                CategoryBuilders = new[] { new CategoryBuilder<Type>(Type2Category) },
+                CategoryBuilders = new[] {new CategoryBuilder<Type>(Type2Category)},
                 StyleBuilders = new StyleBuilder[]
                 {
                     new StyleBuilder<Node>(InterfaceStyle),
@@ -49,7 +50,7 @@ namespace OpenSoftware.DgmlTools
                     new StyleBuilder<Link>(InheritanceStyle)
                 }
             };
-            return builder.Build(types);
+            return builder.Build(typesCollection);
         }
 
 
@@ -60,16 +61,17 @@ namespace OpenSoftware.DgmlTools
             var node = new Node
             {
                 Category = ClassType,
-                CategoryRefs = new List<CategoryRef> { new CategoryRef { Ref = GetAssemblyName(type) } },
+                CategoryRefs = new List<CategoryRef> {new CategoryRef {Ref = "a:" + GetAssemblyName(type)}},
                 Id = MakeTypeId(type),
                 Label = type.Name
             };
             if (type.IsAbstract)
             {
-                node.CategoryRefs.Add(new CategoryRef { Ref = AbstractClassType });
+                node.CategoryRefs.Add(new CategoryRef {Ref = AbstractClassType});
             }
             return node;
         }
+
         public static Node Interface2Node(Type type)
         {
             if (type.IsInterface == false) return null;
@@ -77,14 +79,14 @@ namespace OpenSoftware.DgmlTools
             return new Node
             {
                 Category = InterfaceType,
-                CategoryRefs = new List<CategoryRef> { new CategoryRef { Ref = GetAssemblyName(type) } },
+                CategoryRefs = new List<CategoryRef> {new CategoryRef {Ref = "a:" + GetAssemblyName(type)}},
                 Id = MakeTypeId(type),
                 Label = type.Name
             };
         }
 
 
-        private static IEnumerable<Link> Property2Links(Type type, IReadOnlyCollection<Type> types)
+        private static IEnumerable<Link> Property2Links(Type type, Type[] types)
         {
             var properties = type.GetProperties()
                 .Where(x => x.DeclaringType == type);
@@ -98,7 +100,8 @@ namespace OpenSoftware.DgmlTools
                 yield return link;
             }
         }
-        private static IEnumerable<Link> Field2Links(Type type, IReadOnlyCollection<Type> types)
+
+        private static IEnumerable<Link> Field2Links(Type type, Type[] types)
         {
             var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly |
                                         BindingFlags.NonPublic | BindingFlags.Public);
@@ -112,7 +115,8 @@ namespace OpenSoftware.DgmlTools
                 yield return link;
             }
         }
-        private static IEnumerable<Link> TypeInheritace2Links(Type type, IReadOnlyCollection<Type> types)
+
+        private static IEnumerable<Link> TypeInheritace2Links(Type type, Type[] types)
         {
             var baseType = type.BaseType;
 
@@ -125,7 +129,8 @@ namespace OpenSoftware.DgmlTools
                 yield return MakeInheritanceLink(type, i);
             }
         }
-        private static IEnumerable<Link> GenericType2Links(Type type, IReadOnlyCollection<Type> types)
+
+        private static IEnumerable<Link> GenericType2Links(Type type, Type[] types)
         {
             var baseType = type.BaseType;
 
@@ -144,7 +149,8 @@ namespace OpenSoftware.DgmlTools
                 }
             }
         }
-        private static IEnumerable<Link> ConstructorInjection2Links(Type type, IReadOnlyCollection<Type> types)
+
+        private static IEnumerable<Link> ConstructorInjection2Links(Type type, Type[] types)
         {
             foreach (var constructorInfo in type.GetConstructors())
             {
@@ -160,7 +166,7 @@ namespace OpenSoftware.DgmlTools
         {
             var assemblyName = GetAssemblyName(type);
 
-            return new Category { Id = assemblyName, Label = assemblyName };
+            return new Category {Id = "a:" + assemblyName, Label = assemblyName};
         }
 
 
@@ -176,6 +182,7 @@ namespace OpenSoftware.DgmlTools
                 }
             };
         }
+
         private static Style AbstractStyle(Node node)
         {
             if (node.CategoryRefs != null && node.CategoryRefs.Any(x => x.Ref == AbstractClassType) == false)
@@ -189,6 +196,7 @@ namespace OpenSoftware.DgmlTools
                 }
             };
         }
+
         private static Style AssociationStyle(Link link)
         {
             if (link.Category == AssociationRelation)
@@ -204,6 +212,7 @@ namespace OpenSoftware.DgmlTools
             }
             return null;
         }
+
         private static Style InheritanceStyle(Link link)
         {
             if (link.Category == InheritanceRelation)
@@ -231,6 +240,7 @@ namespace OpenSoftware.DgmlTools
                 Category = InheritanceRelation
             };
         }
+
         private static Link MakeAssociation(Type from, Type to, string name, IEnumerable<Type> types)
         {
             if (to.IsGenericType)
@@ -247,14 +257,17 @@ namespace OpenSoftware.DgmlTools
                 Category = AssociationRelation
             };
         }
+
         private static string MakeTypeId(Type type)
         {
             return $"{type.Namespace}.{type.Name}";
         }
+
         private static bool HasType(IEnumerable<Type> types, Type type)
         {
             return types.Any(t => t.Namespace == type.Namespace && t.Name == type.Name);
         }
+
         private static string GetAssemblyName(Type type)
         {
             var assemblyName = type.Assembly.GetName();
