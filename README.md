@@ -22,18 +22,31 @@ The following builders are supported:
     ```
     As we'll see shortly, you can define multiple node builders for different types in your model. For instance, if your model also contains `Interface` as type, you can instantiate a specific node builder for this type too.
 * `EdgeBuilder` These are builders for constructing edges in your graph. For instance, if there is a `Call` relation in your model to represent methods calls from one component to another, you could instantiate an edge builder as follows:
-    ```csharp
+```csharp
     new LinkBuilder<Call>(
         x => new Link
             {
                 Source = x.Source,
                 Target = x.Target
             });
-    ```
+```
 * `CategoryBuilder` These are builders for adding containment to your graph. For instance, to put all your components inside their containing module.
 * `StyleBuilder` These are builders for applying visual styles to your nodes and edges. For example, to use different background colors for components and interfaces.
 
 While each of the above builder types generates a single node, there are also methods available to generate multiple nodes at once. E.g., you can create an instance of `NodesBuilder` for elements in your model for which you want multiple nodes in the resulting graph. Likewise, to generate multiple links at once, you can instantiate the `LinksBuilder`class.
+
+Each builder has an optional `accept` parameter that can be used to specify when the builder should be applied to an element. For example, in case of the aforementioned node builder, we could add an `accept` parameter to apply this builder only to public components:
+   ```csharp
+    new NodeBuilder<Component>(
+        x => new Node 
+            {
+                Id = x.Id,
+                Label = x.Name,
+                Category = x.ComponentType
+            },
+        x => x.IsPublic);
+```
+In this example, the property `IsPublic` of a components is used to prevent that this builder is restricted to public components. 
 ## Using DgmlBuilder
 To use `DgmlBuilder`, you instantiate `DgmlBuilder` with the builders you need. The basic setup is like this:
 ```csharp
