@@ -3,6 +3,12 @@
 ## Description
 DgmlBuilder is a small `DotNet` library for generating `DGML` graphs without having to know all the details of `DGML` (the Microsoft Directed Graph Markup Language). Visual Studio contains a powerful, interactive `DGML` viewer that is used mostly for displaying code structures of your Visual Studio projects. Despite the powerful viewer, the `DGML` format is not so much in use for other purposes. It is also a bit difficult to use. The aim of `DgmlBuilder` is to make it more easy to represent your (graph-) structured data in `DGML` such that you can use the Visual Studio `DGML` viewer to display, analyze, and interact with your data.
 
+Below are a few example pictures.
+### DgmlBuilder for [creating class diagrams](https://github.com/merijndejonge/DgmlBuilder/tree/master/src/examples/TypesVisualizer)
+![DgmlBuilder for creating class diagrams](https://raw.githubusercontent.com/merijndejonge/DgmlBuilder/master/src/examples/TypesVisualizer/class-diagram.png)
+### DgmlBuilder for [visualizing Structurizr C4 models](https://github.com/merijndejonge/Structurizr.Dgml)
+![DgmlBuilder for visualizing Structurizr C4 models](https://raw.githubusercontent.com/merijndejonge/Structurizr.Dgml/master/images/ContosoUniversity.png)
+
 ## How it works
 `DgmlBuilder` operates on a collection of objects and turns these into collections of nodes, edges, styles, and categories, based on a given set of builders.
 
@@ -33,42 +39,42 @@ The following builders are supported:
 * `CategoryBuilder` These are builders for adding containment to your graph. For instance, to put all your components inside their containing module.
 * `StyleBuilder` These are builders for applying visual styles to your nodes and edges. For example, to use different background colors for components and interfaces.
 
-While each of the above builder types generates a single node, there are also methods available to generate multiple nodes at once. E.g., you can create an instance of `NodesBuilder` for elements in your model for which you want multiple nodes in the resulting graph. Likewise, to generate multiple links at once, you can instantiate the `LinksBuilder`class.
+While each of the above builder types generates a single node, there are also methods available to generate multiple nodes at once. E.g., you can create an instance of `NodesBuilder` for elements in your model for which you want multiple nodes in the resulting graph. Likewise, to generate multiple links at once, you can instantiate the `LinksBuilder` class.
 
 Each builder has an optional `accept` parameter that can be used to specify when the builder should be applied to an element. For example, in case of the aforementioned node builder, we could add an `accept` parameter as follows:
-   ```csharp
-    new NodeBuilder<Component>(
-        x => new Node 
-            {
-                Id = x.Id,
-                Label = x.Name,
-                Category = x.ComponentType
-            },
-        x => x.IsPublic);
+```csharp
+new NodeBuilder<Component>(
+    x => new Node 
+        {
+            Id = x.Id,
+            Label = x.Name,
+            Category = x.ComponentType
+        },
+    x => x.IsPublic);
 ```
-In this example, the property `IsPublic` of a components is used to specify that the builder should only be applied to public components.
+In this example, the property `IsPublic` of a component is used to specify that the builder should only be applied to public components.
 ## Using DgmlBuilder
 To use `DgmlBuilder`, you instantiate `DgmlBuilder` with the builders you need. The basic setup is like this:
 ```csharp
-    var builder = new DgmlBuilder
+var builder = new DgmlBuilder
+{
+    NodeBuilders = new NodeBuilder[]
     {
-        NodeBuilders = new NodeBuilder[]
-        {
-            <your node builders>
-        },
-        LinkBuilders = new LinkBuilder[]
-        {
-            <your link builders>
-        },
-        CategoryBuilders = new CategoryBuilder[]
-        {
-            <your category builders>
-        },
-        StyleBuilders = new StyleBuilder[]
-        {
-            <your style builders>
-        }
-    };
+        <your node builders>
+    },
+    LinkBuilders = new LinkBuilder[]
+    {
+        <your link builders>
+    },
+    CategoryBuilders = new CategoryBuilder[]
+    {
+        <your category builders>
+    },
+    StyleBuilders = new StyleBuilder[]
+    {
+        <your style builders>
+    }
+};
 ```
 As you can see, all builder properties of `DgmlBuilder` are collections, allowing you to specify multiple builders for each.
 
@@ -109,10 +115,10 @@ passed as constructor arguments to `DgmlBuilder`. The `DgmlBuilder` library cont
 
 To use any of these or your own analyses, pass them to the constructor of `DgmlBuilder`. E.g.,
 ```csharp
-   var builder = new DgmlBuilder(new HubNodeAnalysis(), new NodeReferencedAnalysis());
+var builder = new DgmlBuilder(new HubNodeAnalysis(), new NodeReferencedAnalysis());
 ``` 
 ## Create custom analyses
-To create your own analysis, you create an instance of `GraphAnalysis`. This class has the following three properties:
+To create your own analysis, create an instance of `GraphAnalysis`. This class has the following three properties:
 ```csharp
 public Action<DirectedGraph> Analysis { get; set; }
 public IEnumerable<Property> Properties { get; set; } = new List<Property>();
@@ -120,7 +126,7 @@ public IEnumerable<Style> Styles { get; set; } = new List<Style>();
 ```
 Below we discuss the three properties in more detail.
 ### Specifying your analysis action 
-The first property is to specify your analysis action:
+With the first property you specify your analysis action:
 ```csharp
 public Action<DirectedGraph> Analysis { get; set; }
 ```
