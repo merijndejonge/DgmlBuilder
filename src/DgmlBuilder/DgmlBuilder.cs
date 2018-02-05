@@ -7,7 +7,7 @@ namespace OpenSoftware.DgmlTools
 {
     public class DgmlBuilder
     {
-        private readonly List<GraphAnalysis> _graphAnalyses;
+        private readonly List<IGraphAnalysis> _graphAnalyses;
         private List<Link> _links = new List<Link>();
         private List<Node> _nodes = new List<Node>();
         private List<Category> _categories = new List<Category>();
@@ -23,7 +23,7 @@ namespace OpenSoftware.DgmlTools
         /// Creates a new instance of the DgmlBuilder class.
         /// </summary>
         /// <param name="graphAnalyses">optional collection of graph analysis to apply</param>
-        public DgmlBuilder(params GraphAnalysis[] graphAnalyses)
+        public DgmlBuilder(params IGraphAnalysis[] graphAnalyses)
         {
             _graphAnalyses = graphAnalyses.ToList();
         }
@@ -64,11 +64,11 @@ namespace OpenSoftware.DgmlTools
             return graph;
         }
 
-        private static void ExecuteAnalysis(GraphAnalysis analysis, DirectedGraph graph)
+        private static void ExecuteAnalysis(IGraphAnalysis analysis, DirectedGraph graph)
         {
-            analysis.GetStyles?.Invoke(graph).ToList().ForEach(graph.Styles.Add);
-            analysis.GetProperties?.Invoke(graph).ToList().ForEach(graph.Properties.Add);
-            analysis.Analysis?.Invoke(graph);
+            analysis.Execute(graph);
+            analysis.GetStyles(graph)?.ToList().ForEach(graph.Styles.Add);
+            analysis.GetProperties(graph)?.ToList().ForEach(graph.Properties.Add);            
         }
 
         private static IEnumerable<T> Build<T>(object element, IEnumerable<Builder> builderCollection) where T : class
