@@ -66,8 +66,8 @@ namespace OpenSoftware.DgmlTools
 
         private static void ExecuteAnalysis(GraphAnalysis analysis, DirectedGraph graph)
         {
-            analysis.Styles.ToList().ForEach(s => graph.Styles.Add(s));
-            analysis.Properties.ToList().ForEach(p => graph.Properties.Add(p));
+            analysis.GetStyles?.Invoke(graph).ToList().ForEach(graph.Styles.Add);
+            analysis.GetProperties?.Invoke(graph).ToList().ForEach(graph.Properties.Add);
             analysis.Analysis(graph);
         }
 

@@ -16,7 +16,7 @@ namespace OpenSoftware.DgmlTools.Analyses
         public NodeReferencedAnalysis()
         {
             Analysis = PerformNodeReferencedAnalysis;
-            Properties = new[]
+            GetProperties = x => new[]
             {
                 new Property
                 {
@@ -26,7 +26,7 @@ namespace OpenSoftware.DgmlTools.Analyses
                     Description = "IsReferenced"
                 }
             };
-            Styles = new[]
+            GetStyles = x => new[]
             {
                 new Style
                 {

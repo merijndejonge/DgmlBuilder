@@ -9,10 +9,10 @@ namespace OpenSoftware.DgmlTools.Analyses
     /// </summary>
     public class HubNodeAnalysis : GraphAnalysis
     {
-        public HubNodeAnalysis(string fontGrowExpression = "14+(Count*2)") 
+        public HubNodeAnalysis(string fontGrowExpression = "14+(Count*2)")
         {
             Analysis = PerformNodeCountAnalysis;
-            Properties = new[]
+            GetProperties = x => new[]
             {
                 new Property
                 {
@@ -22,7 +22,7 @@ namespace OpenSoftware.DgmlTools.Analyses
                     Description = "Count"
                 }
             };
-            Styles = new[]
+            GetStyles = x => new[]
             {
                 new Style
                 {
