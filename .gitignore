@@ -2,3 +2,4 @@
 bin/
 obj/
 src/examples/TypesVisualizer/class-diagram.dgml
+src/packages/

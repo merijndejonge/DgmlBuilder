@@ -26,7 +26,7 @@ namespace OpenSoftware.DgmlTools
         public static DirectedGraph Types2Dgml(IEnumerable<Type> types)
         {
             var typesCollection = types.ToArray();
-            var builder = new DgmlBuilder(new HubNodeAnalysis())
+            var builder = new DgmlBuilder(new HubNodeAnalysis(), new CategoryColorAnalysis())
             {
                 NodeBuilders = new[]
                 {
