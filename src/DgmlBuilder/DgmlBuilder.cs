@@ -68,7 +68,7 @@ namespace OpenSoftware.DgmlTools
         {
             analysis.GetStyles?.Invoke(graph).ToList().ForEach(graph.Styles.Add);
             analysis.GetProperties?.Invoke(graph).ToList().ForEach(graph.Properties.Add);
-            analysis.Analysis(graph);
+            analysis.Analysis?.Invoke(graph);
         }
 
         private static IEnumerable<T> Build<T>(object element, IEnumerable<Builder> builderCollection) where T : class
