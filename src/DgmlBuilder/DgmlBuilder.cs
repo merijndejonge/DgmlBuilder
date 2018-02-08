@@ -138,7 +138,7 @@ namespace OpenSoftware.DgmlTools
         /// </summary>
         private void BuildContainmentForCategories()
         {
-            foreach (var category in _categories)
+            foreach (var category in _categories.ToList())
             {
                 // Construct categories for this category
                 var categoryCategories = Build<Category>(category, CategoryBuilders).ToList();
