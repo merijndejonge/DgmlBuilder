@@ -28,7 +28,9 @@ namespace OpenSoftware.DgmlTools.Model
             {
                 var value = xmlElement.GetValue(obj);
                 if (!xmlElement.PropertyType.IsValueType && value == null) continue;
-                var attribute = (XmlElementAttribute)xmlElement.GetCustomAttributes(typeof(XmlElementAttribute), true).Single();
+                var attribute = (XmlElementAttribute)xmlElement.GetCustomAttributes(typeof(XmlElementAttribute), true).SingleOrDefault();
+                if (attribute == null)
+                    continue;
                 if (value is IEnumerable list)
                 {
                     foreach (var element in list)
