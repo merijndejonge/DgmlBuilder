@@ -27,7 +27,7 @@ The following builders are supported:
             });
     ```
     As we'll see shortly, you can define multiple node builders. For instance, if your model also contains `Interface` as type, you can instantiate a specific node builder for this type too.
-* `EdgeBuilder` These are builders for constructing edges in your graph. For instance, if there is a `Call` relation in your model to represent method calls from one component to another, you could instantiate an edge builder as follows:
+* `LinkBuilder` These are builders for constructing links in your graph. For instance, if there is a `Call` relation in your model to represent method calls from one component to another, you could instantiate an link builder as follows:
 ```csharp
     new LinkBuilder<Call>(
         x => new Link
@@ -36,7 +36,8 @@ The following builders are supported:
                 Target = x.Target
             });
 ```
-* `CategoryBuilder` These are builders for adding containment to your graph. For instance, to put all your components inside their containing module.
+If a link denotes a containment relation, set the attribute `IsContainment` to trye. `DgmlBuilder` will use this informaiton to place the target node as child of the source node.
+* `CategoryBuilder` These are builders for grouping nodes into categories. Categories make it easy to style all nodes of a category consistently.
 * `StyleBuilder` These are builders for applying visual styles to your nodes and edges. For example, to use different background colors for components and interfaces.
 
 While each of the above builder types generates a single node, there are also methods available to generate multiple nodes at once. E.g., you can create an instance of `NodesBuilder` for elements in your model for which you want multiple nodes in the resulting graph. Likewise, to generate multiple links at once, you can instantiate the `LinksBuilder` class.
