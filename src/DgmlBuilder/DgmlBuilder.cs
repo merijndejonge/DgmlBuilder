@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OpenSoftware.DgmlTools.Builders;
 using OpenSoftware.DgmlTools.Model;
@@ -14,11 +15,11 @@ namespace OpenSoftware.DgmlTools
         private List<Style> _styles = new List<Style>();
 
         public IEnumerable<NodeBuilder> NodeBuilders { get; set; }
-
         public IEnumerable<CategoryBuilder> CategoryBuilders { get; set; }
         public IEnumerable<LinkBuilder> LinkBuilders { get; set; }
         public IEnumerable<StyleBuilder> StyleBuilders { get; set; }
 
+        
         /// <summary>
         /// Creates a new instance of the DgmlBuilder class.
         /// </summary>
@@ -99,6 +100,8 @@ namespace OpenSoftware.DgmlTools
                 Build<Link>(element, LinkBuilders).ToList().ForEach(_links.Add);
                 Build<Category>(element, CategoryBuilders).ToList().ForEach(_categories.Add);
             }
+            _nodes = _nodes.Distinct(new NodeComparer()).ToList();
+            _links = _links.Distinct(new LinkComparer()).ToList();
             _categories = _categories.Distinct(new CategoryComparer()).ToList();
 
             BuildContainmentForCategories();
@@ -138,37 +141,22 @@ namespace OpenSoftware.DgmlTools
         /// </summary>
         private void BuildContainmentForCategories()
         {
-            foreach (var category in _categories.ToList())
-            {
-                // Construct categories for this category
-                var categoryCategories = Build<Category>(category, CategoryBuilders).ToList();
-                _nodes.Add(new Node
-                {
-                    Id = category.Id,
-                    Group = "Expanded",
-                    Category = categoryCategories.Any() ?  categoryCategories.First().Id : null,
-                    CategoryRefs = categoryCategories.Any()?  categoryCategories.Skip(1).Select(x => new CategoryRef { Ref = x.Id }).ToList() : null
-                });
 
-                categoryCategories.ForEach(x =>
-                {
-                    _nodes.Add(new Node { Id = x.Id, Group = "Expanded" });
-                    _categories.Add(x);
-                });
-            }
-            // create links betwen nodes and categories
-            foreach (var category in _categories)
+            foreach (var link in _links.Where(x => x.IsContainment))
             {
-                foreach (var node in _nodes.Where(c => c.Category == category.Id || c.CategoryRefs != null && c.CategoryRefs.Any(x=>x.Ref == category.Id)))
+                var parent = _nodes.SingleOrDefault(x => x.Id == link.Source);
+                if (parent == null)
                 {
-                    _links.Add(new Link
+                    parent = new Node
                     {
-                        Source = category.Id,
-                        Target = node.Id,
-                        Category = "Contains",
-                        Visibility = "Hidden"
-                    });
+                        Id = link.Source
+                    };
+                    _nodes.Add(parent);
                 }
+
+                parent.Group = "Expanded";
+                link.Category = "Contains";
+                link.Visibility = "Hidden";
             }
         }
 

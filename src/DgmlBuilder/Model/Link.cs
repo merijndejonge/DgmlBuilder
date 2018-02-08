@@ -25,5 +25,7 @@ namespace OpenSoftware.DgmlTools.Model
         public string Description { get; set; }
         [XmlIgnore]
         public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
+
+        public bool IsContainment { get; set; }
     }
 }
