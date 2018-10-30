@@ -6,6 +6,20 @@ using System.Reflection;
 
 namespace OpenSoftware.DgmlTools.Reflection
 {
+    public static class AssemblyExtensions{
+        public static IEnumerable<Type> TryGetTypes(this Assembly a)
+        {
+            try
+            {
+                return a.GetTypes();
+            }
+            catch
+            {
+                Console.Error.WriteLine("Loading failed for " + a.FullName);
+                return new Type[]{};
+            }
+        }
+    }
     public class TypesLoader : IDisposable
     {
         private readonly IEnumerable<string> _assemblyPaths;
@@ -22,6 +36,7 @@ namespace OpenSoftware.DgmlTools.Reflection
             _excludeFilters = excludeFilters ?? new List<IExcludeFilter>();
             _assemblySearchPaths =  assemblyPaths.Select(Path.GetDirectoryName);
         }
+
         /// <summary>
         /// Load types from specified collection of assemblies (and all type dependencies) excluding the types that
         /// match any of the exclude filters.
@@ -32,12 +47,12 @@ namespace OpenSoftware.DgmlTools.Reflection
             AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomainOnReflectionOnlyAssemblyResolve;
             var assemblies = _assemblyPaths.Select(Assembly.ReflectionOnlyLoadFrom);
             assemblies =
-                assemblies.SelectMany(x => x.GetReferencedAssemblies().Select(LoadAssembly).Concat(new[] {x}));
+                assemblies.SelectMany(x => x.GetReferencedAssemblies().Select(LoadAssembly).Concat(new[] { x }));
             var types = assemblies
-                .SelectMany(a => a.GetTypes()
-                .Where(x => x.IsClass || x.IsInterface)
+                .SelectMany(a => a.TryGetTypes()
+                    .Where(x => x.IsClass || x.IsInterface)
                     .Where(new ExcludeFilters(_excludeFilters).Apply));
-            return types.OrderBy(x=>x.Name).ToArray();
+            return types.OrderBy(x => x.Name).ToArray();
         }
 
         private Assembly LoadAssembly(AssemblyName assemblyName)
