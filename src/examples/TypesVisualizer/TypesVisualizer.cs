@@ -12,6 +12,7 @@ namespace OpenSoftware.DgmlTools
     {
         private const string AbstractClassType = "Abstract";
         private const string InterfaceType = "Interface";
+        private const string EnumType = "Enum";
         private const string AssociationRelation = "Association";
         private const string InheritanceRelation = "Inheritance";
         private const string ClassType = "Class";
@@ -31,12 +32,13 @@ namespace OpenSoftware.DgmlTools
                 NodeBuilders = new[]
                 {
                     new NodeBuilder<Type>(Class2Node, x => x.IsClass),
-                    new NodeBuilder<Type>(Interface2Node, x => x.IsInterface)
+                    new NodeBuilder<Type>(Interface2Node, x => x.IsInterface),
+                    new NodeBuilder<Type>(Enum2Node, x => x.IsEnum)
                 },
                 LinkBuilders = new[]
                 {
                     new LinksBuilder<Type>(x => Property2Links(x, typesCollection)),
-                    new LinksBuilder<Type>(x => Field2Links(x, typesCollection)),
+                    new LinksBuilder<Type>(x => Field2Links(x, typesCollection), x => x.IsEnum == false),
                     new LinksBuilder<Type>(x => TypeInheritace2Links(x, typesCollection)),
                     new LinksBuilder<Type>(x => GenericType2Links(x, typesCollection)),
                     new LinksBuilder<Type>(x => ConstructorInjection2Links(x, typesCollection)),
@@ -45,6 +47,7 @@ namespace OpenSoftware.DgmlTools
                 StyleBuilders = new StyleBuilder[]
                 {
                     new StyleBuilder<Node>(InterfaceStyle, x => x.HasCategory(InterfaceType)),
+                    new StyleBuilder<Node>(EnumStyle, x => x.HasCategory(EnumType)),
                     new StyleBuilder<Node>(AbstractStyle, x => x.HasCategory(AbstractClassType)),
                     new StyleBuilder<Link>(AssociationStyle, x => x.HasCategory(AssociationRelation)),
                     new StyleBuilder<Link>(InheritanceStyle, x => x.HasCategory(InheritanceRelation))
@@ -76,6 +79,16 @@ namespace OpenSoftware.DgmlTools
             {
                 Category = InterfaceType,
                 CategoryRefs = new List<CategoryRef> {new CategoryRef {Ref = "a:" + GetAssemblyName(type)}},
+                Id = MakeTypeId(type),
+                Label = type.Name
+            };
+        }
+        public static Node Enum2Node(Type type)
+        {
+            return new Node
+            {
+                Category = EnumType,
+                CategoryRefs = new List<CategoryRef> { new CategoryRef { Ref = "a:" + GetAssemblyName(type) } },
                 Id = MakeTypeId(type),
                 Label = type.Name
             };
@@ -174,6 +187,17 @@ namespace OpenSoftware.DgmlTools
                 Setter = new List<Setter>
                 {
                     new Setter {Property = "NodeRadius", Value = "16"}
+                }
+            };
+        }
+        private static Style EnumStyle(Node node)
+        {
+            return new Style
+            {
+                GroupLabel = EnumType,
+                Setter = new List<Setter>
+                {
+                    new Setter {Property = "NodeRadius", Value = "26"}
                 }
             };
         }

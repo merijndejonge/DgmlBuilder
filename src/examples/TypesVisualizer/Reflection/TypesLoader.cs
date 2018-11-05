@@ -50,7 +50,7 @@ namespace OpenSoftware.DgmlTools.Reflection
                 assemblies.SelectMany(x => x.GetReferencedAssemblies().Select(LoadAssembly).Concat(new[] { x }));
             var types = assemblies
                 .SelectMany(a => a.TryGetTypes()
-                    .Where(x => x.IsClass || x.IsInterface)
+                    .Where(x => x.IsClass || x.IsInterface || x.IsEnum)
                     .Where(new ExcludeFilters(_excludeFilters).Apply));
             return types.OrderBy(x => x.Name).ToArray();
         }
