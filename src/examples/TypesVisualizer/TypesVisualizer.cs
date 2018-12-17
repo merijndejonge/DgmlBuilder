@@ -20,7 +20,7 @@ namespace OpenSoftware.DgmlTools
         /// <summary>
         /// Creates a DGML graph from a collection of types. The graph contains 
         /// nodes for interfaces (denoted as ovals) and classes (denoted as boxes), dashed edges for inheritance relations, 
-        /// normal edges for asociations. Abstract classes are denoted as dashed boxes.
+        /// normal edges for associations. Abstract classes are denoted as dashed boxes.
         /// </summary>
         /// <param name="types"></param>
         /// <returns></returns>
@@ -38,8 +38,9 @@ namespace OpenSoftware.DgmlTools
                 LinkBuilders = new[]
                 {
                     new LinksBuilder<Type>(x => Property2Links(x, typesCollection)),
+                    new LinksBuilder<Type>(x => Method2Links(x, typesCollection)),
                     new LinksBuilder<Type>(x => Field2Links(x, typesCollection), x => x.IsEnum == false),
-                    new LinksBuilder<Type>(x => TypeInheritace2Links(x, typesCollection)),
+                    new LinksBuilder<Type>(x => TypeInheritance2Links(x, typesCollection)),
                     new LinksBuilder<Type>(x => GenericType2Links(x, typesCollection)),
                     new LinksBuilder<Type>(x => ConstructorInjection2Links(x, typesCollection)),
                 },
@@ -70,6 +71,7 @@ namespace OpenSoftware.DgmlTools
             {
                 node.CategoryRefs.Add(new CategoryRef {Ref = AbstractClassType});
             }
+
             return node;
         }
 
@@ -83,30 +85,88 @@ namespace OpenSoftware.DgmlTools
                 Label = type.Name
             };
         }
+
         public static Node Enum2Node(Type type)
         {
             return new Node
             {
                 Category = EnumType,
-                CategoryRefs = new List<CategoryRef> { new CategoryRef { Ref = "a:" + GetAssemblyName(type) } },
+                CategoryRefs = new List<CategoryRef> {new CategoryRef {Ref = "a:" + GetAssemblyName(type)}},
                 Id = MakeTypeId(type),
                 Label = type.Name
             };
         }
 
-
         private static IEnumerable<Link> Property2Links(Type type, Type[] types)
         {
-            var properties = type.GetProperties()
-                .Where(x => x.DeclaringType == type);
+            IEnumerable<PropertyInfo> properties = new List<PropertyInfo>();
+            try
+            {
+                properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Static |
+                                                BindingFlags.DeclaredOnly |
+                                                BindingFlags.NonPublic | BindingFlags.Public)
+                    .Where(x => x.DeclaringType == type);
+            }
+            catch
+            {
+                // ignored
+            }
 
             foreach (var propertyInfo in properties)
             {
-                var propertyType = propertyInfo.PropertyType;
-                var propertyName = propertyInfo.Name;
+                Type propertyType;
+                string propertyName;
+                try
+                {
+                    propertyType = propertyInfo.PropertyType;
+                    propertyName = propertyInfo.Name;
+                }
+                catch
+                {
+                    continue;
+                }
+
                 var link = MakeAssociation(type, propertyType, propertyName, types);
                 if (link == null) continue;
                 yield return link;
+            }
+        }
+
+        private static IEnumerable<Link> Method2Links(Type type, Type[] types)
+        {
+            IEnumerable<MethodInfo> methods = new List<MethodInfo>();
+            try
+            {
+                methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly |
+                                          BindingFlags.NonPublic | BindingFlags.Public)
+                    .Where(x => x.DeclaringType == type).ToArray();
+            }
+            catch
+            {
+                // ignored
+            }
+
+            foreach (var methodInfo in methods)
+            {
+                Type returnType;
+                try
+                {
+                    returnType = methodInfo.ReturnType;
+                }
+                catch
+                {
+                    continue;
+                }
+
+                if (returnType != typeof(void))
+                {
+                    yield return MakeAssociation(type, returnType, returnType.Name, types);
+                }
+
+                foreach (var parameterInfo in methodInfo.GetParameters())
+                {
+                    yield return MakeAssociation(type, parameterInfo.ParameterType, parameterInfo.Name, types);
+                }
             }
         }
 
@@ -114,18 +174,27 @@ namespace OpenSoftware.DgmlTools
         {
             var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly |
                                         BindingFlags.NonPublic | BindingFlags.Public);
-
             foreach (var fieldInfo in fields)
             {
-                var fieldType = fieldInfo.FieldType;
-                var fieldName = fieldInfo.Name;
+                Type fieldType;
+                string fieldName;
+                try
+                {
+                    fieldType = fieldInfo.FieldType;
+                    fieldName = fieldInfo.Name;
+                }
+                catch
+                {
+                    continue;
+                }
+
                 var link = MakeAssociation(type, fieldType, fieldName, types);
                 if (link == null) continue;
                 yield return link;
             }
         }
 
-        private static IEnumerable<Link> TypeInheritace2Links(Type type, Type[] types)
+        private static IEnumerable<Link> TypeInheritance2Links(Type type, Type[] types)
         {
             var baseType = type.BaseType;
 
@@ -133,6 +202,7 @@ namespace OpenSoftware.DgmlTools
             {
                 yield return MakeInheritanceLink(type, baseType);
             }
+
             foreach (var i in type.GetInterfaces().Where(x => HasType(types, x)))
             {
                 yield return MakeInheritanceLink(type, i);
@@ -150,6 +220,7 @@ namespace OpenSoftware.DgmlTools
                     yield return MakeAssociation(type, genericTypeArgument, null, types);
                 }
             }
+
             foreach (var i in type.GetInterfaces().Where(x => HasType(types, x)).Where(x => x.IsGenericType))
             {
                 foreach (var genericTypeArgument in i.GetGenericArguments())
@@ -163,13 +234,23 @@ namespace OpenSoftware.DgmlTools
         {
             foreach (var constructorInfo in type.GetConstructors())
             {
-                foreach (var parameterInfo in constructorInfo.GetParameters())
+                ParameterInfo[] parameters;
+                try
+                {
+                    parameters = constructorInfo.GetParameters();
+                }
+                catch
+                {
+                    continue;
+                }
+
+
+                foreach (var parameterInfo in parameters)
                 {
                     yield return MakeAssociation(type, parameterInfo.ParameterType, null, types);
                 }
             }
         }
-
 
         private static Category Type2Category(Type type)
         {
@@ -177,7 +258,6 @@ namespace OpenSoftware.DgmlTools
 
             return new Category {Id = "a:" + assemblyName, Label = assemblyName};
         }
-
 
         private static Style InterfaceStyle(Node node)
         {
@@ -190,6 +270,7 @@ namespace OpenSoftware.DgmlTools
                 }
             };
         }
+
         private static Style EnumStyle(Node node)
         {
             return new Style

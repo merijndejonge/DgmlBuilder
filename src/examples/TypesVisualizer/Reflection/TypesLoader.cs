@@ -47,7 +47,8 @@ namespace OpenSoftware.DgmlTools.Reflection
             AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += CurrentDomainOnReflectionOnlyAssemblyResolve;
             var assemblies = _assemblyPaths.Select(Assembly.ReflectionOnlyLoadFrom);
             assemblies =
-                assemblies.SelectMany(x => x.GetReferencedAssemblies().Select(LoadAssembly).Concat(new[] { x }));
+                assemblies.SelectMany(x =>
+                    x.GetReferencedAssemblies().Select(LoadAssembly).Where(a => a != null).Concat(new[] {x}));
             var types = assemblies
                 .SelectMany(a => a.TryGetTypes()
                     .Where(x => x.IsClass || x.IsInterface || x.IsEnum)
@@ -60,7 +61,15 @@ namespace OpenSoftware.DgmlTools.Reflection
             var path = FindAssemblyByName(assemblyName);
             if (path == null)
             {
-                return Assembly.ReflectionOnlyLoad(assemblyName.FullName);
+                try
+                {
+                    return Assembly.ReflectionOnlyLoad(assemblyName.FullName);
+                }
+                catch
+                {
+                    Console.Error.WriteLine($"Could not find assembly {assemblyName.Name}; ignored.");
+                    return null;
+                }
             }
             return Assembly.ReflectionOnlyLoadFrom(path);
         }
@@ -77,8 +86,20 @@ namespace OpenSoftware.DgmlTools.Reflection
 
         private Assembly CurrentDomainOnReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
         {
-            var assemblyName = new AssemblyName(args.Name);
-            return LoadAssembly(assemblyName);
+            try
+            {
+
+                var assemblyName = new AssemblyName(args.Name);
+                var assembly = LoadAssembly(assemblyName);
+                return assembly;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(
+                    $"OnReflectionOnlyAssemblyResolve failed {e.Message}");
+            }
+            return null;
+
         }
 
         public void Dispose()
