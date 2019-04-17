@@ -16,6 +16,9 @@
     <PackageTags>DGML modeling visualization</PackageTags>
     <Version>1.12</Version>
     <FileVersion>1.1.0.0</FileVersion>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>DgmlBuilder.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
