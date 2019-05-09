@@ -3,3 +3,4 @@ bin/
 obj/
 src/examples/TypesVisualizer/class-diagram.dgml
 src/packages/
+src/DgmlBuilder/DgmlBuilder.csproj.user

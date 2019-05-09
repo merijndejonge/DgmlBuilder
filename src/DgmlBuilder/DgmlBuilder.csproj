@@ -11,14 +11,15 @@
     <PackageProjectUrl>https://github.com/merijndejonge/DgmlBuilder</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/merijndejonge/DgmlBuilder.git</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/merijndejonge/DgmlBuilder/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <Copyright>Merijn de Jonge</Copyright>
     <PackageTags>DGML modeling visualization</PackageTags>
-    <Version>1.12</Version>
+    <Version>1.13</Version>
     <FileVersion>1.1.0.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>DgmlBuilder.snk</AssemblyOriginatorKeyFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +28,13 @@
 
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
