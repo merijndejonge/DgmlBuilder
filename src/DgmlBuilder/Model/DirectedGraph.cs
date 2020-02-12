@@ -18,6 +18,24 @@ namespace OpenSoftware.DgmlTools.Model
         [XmlAttribute]
         public bool DataVirtualized { get; set; }
 
+        [XmlAttribute]
+        public string Background { get; set; }
+
+        [XmlAttribute]
+        public GraphDirection GraphDirection { get; set; }
+
+        [XmlAttribute]
+        public Layout Layout { get; set; }
+
+        [XmlAttribute]
+        public byte NeighborhoodDistance { get; set; }
+
+        public bool ShouldSerializeGraphDirection() => GraphDirection != GraphDirection.Unspecified;
+
+        public bool ShouldSerializeLayout() => Layout != Layout.Unspecified;
+
+        public bool ShouldSerializeNeighborhoodDistance() => NeighborhoodDistance != 7;
+
         public List<Node> Nodes { get; set; }
         public List<Link> Links { get; set; }
         public List<Category> Categories { get; set; }

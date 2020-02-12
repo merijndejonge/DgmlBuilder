@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Runtime.CompilerServices;
-using OpenSoftware.DgmlTools.Model;
 using OpenSoftware.DgmlTools.Reflection;
+using OpenSoftware.DgmlTools.Model;
 
 namespace OpenSoftware.DgmlTools
 {
@@ -20,7 +20,12 @@ namespace OpenSoftware.DgmlTools
             {
                 var types = loader.Load().ToArray();
                 var graph = TypesVisualizer.Types2Dgml(types);
-                graph.WriteToFile(@"../../class-diagram.dgml");
+
+                //graph.GraphDirection = GraphDirection.LeftToRight;
+                //graph.Layout = Layout.Sugiyama;
+                //graph.NeighborhoodDistance = 1;
+
+                graph.WriteToFile(@"../../../class-diagram.dgml");
             }
         }
     }
