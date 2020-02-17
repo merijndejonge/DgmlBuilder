@@ -202,7 +202,7 @@ namespace OpenSoftware.DgmlTools
             {
                 yield return MakeInheritanceLink(type, baseType);
             }
-
+Console.WriteLine("The type"+type.Name);
             foreach (var i in type.GetInterfaces().Where(x => HasType(types, x)))
             {
                 yield return MakeInheritanceLink(type, i);
