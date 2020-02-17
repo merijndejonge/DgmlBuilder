@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>OpenSoftware.DgmlBuilder</AssemblyName>
     <RootNamespace>OpenSoftware.DgmlTools</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -14,7 +14,7 @@
     <PackageLicenseUrl></PackageLicenseUrl>
     <Copyright>Merijn de Jonge</Copyright>
     <PackageTags>DGML modeling visualization</PackageTags>
-    <Version>1.13</Version>
+    <Version>1.14</Version>
     <FileVersion>1.1.0.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <DelaySign>false</DelaySign>
@@ -24,10 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
 
   <ItemGroup>
