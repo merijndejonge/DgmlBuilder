@@ -4,12 +4,13 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>OpenSoftware.DgmlTools</RootNamespace>
     <AssemblyName>OpenSoftware.DgmlTools.TypesVisualizer</AssemblyName>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>TypesVisualizer</AssemblyTitle>
-    <Company>FEI Electron Optics</Company>
+    <Authors>Merijn de Jonge</Authors>
+    <Company>OpenSoftware</Company>
     <Product>TypesVisualizer</Product>
-    <Copyright>Copyright © FEI Electron Optics 2017</Copyright>
+    <Copyright>Merijn de Jonge</Copyright>
   </PropertyGroup>
   
   <ItemGroup>
