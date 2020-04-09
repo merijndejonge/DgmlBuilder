@@ -10,7 +10,6 @@
     <PackageProjectUrl>https://github.com/merijndejonge/DgmlBuilder</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/merijndejonge/DgmlBuilder.git</RepositoryUrl>
-    <PackageLicenseUrl></PackageLicenseUrl>
     <Copyright>Merijn de Jonge</Copyright>
     <PackageTags>DGML modeling visualization</PackageTags>
     <Version>1.14</Version>
@@ -20,6 +19,7 @@
     <AssemblyOriginatorKeyFile>DgmlBuilder.snk</AssemblyOriginatorKeyFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Title>OpenSoftware.DgmlBuilder</Title>
   </PropertyGroup>
 
   <ItemGroup>
