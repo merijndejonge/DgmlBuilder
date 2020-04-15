@@ -36,7 +36,7 @@ The following builders are supported:
                 Target = x.Target
             });
 ```
-If a link denotes a containment relation, set the attribute `IsContainment` to trye. `DgmlBuilder` will use this informaiton to place the target node as child of the source node.
+If a link denotes a containment relation, set the attribute `IsContainment` to true. `DgmlBuilder` will use this informaiton to place the target node as child of the source node.
 * `CategoryBuilder` These are builders for grouping nodes into categories. Categories make it easy to style all nodes of a category consistently.
 * `StyleBuilder` These are builders for applying visual styles to your nodes and edges. For example, to use different background colors for components and interfaces.
 
