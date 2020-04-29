@@ -18,7 +18,7 @@
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>DgmlBuilder.snk</AssemblyOriginatorKeyFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Title>OpenSoftware.DgmlBuilder</Title>
   </PropertyGroup>
 
