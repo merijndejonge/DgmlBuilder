@@ -200,6 +200,6 @@ The
 [GitHub](https://github.com/merijndejonge/DgmlBuilder/tree/master/src/examples/TypesVisualizer) repository of `DgmlBuilder` contains [`TypesVisualizer`](https://github.com/merijndejonge/DgmlBuilder/tree/master/src/examples/TypesVisualizer), which is a small tool to capture the structure and relationships of collections of types in a DGML graph. This tool demonstrates most features of DgmlBuilder.
 
 ## More info
-* Source code of `DgmlBuilder` is available at [GitHub](https://github.com/merijndejonge/DgmlBuilder). Nuget packages are available at [Nuget.org](https://www.nuget.org/packages/DgmlBuilder).
+* Source code of `DgmlBuilder` is available at [GitHub](https://github.com/merijndejonge/DgmlBuilder). Nuget packages are available at [Nuget.org](https://www.nuget.org/packages/OpenSoftware.DgmlBuilder/).
 * `DgmlBuilder` is distributed under the [Apache 2.0 License](https://github.com/merijndejonge/DgmlBuilder/blob/master/LICENSE).
 * [Directed Graph Markup Language (DGML) reference](https://docs.microsoft.com/en-us/visualstudio/modeling/directed-graph-markup-language-dgml-reference).
