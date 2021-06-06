@@ -95,7 +95,7 @@ For example, if you have your components, interfaces, and calls contained in sep
 var graph = builder.Build(components, interfaces, calls);
 ```
 
-The resulting `DGML` graph is a serializable object. This means that with the standard .Net serializers you can save the corresponding graph to disk. E.g., as follows:
+The resulting `DGML` graph is a serializable object. This means that with the standard .NET serializers you can save the corresponding graph to disk. E.g., as follows:
 ```csharp
 using (var writer = new StreamWriter("my-graph.dgml"))
 {
