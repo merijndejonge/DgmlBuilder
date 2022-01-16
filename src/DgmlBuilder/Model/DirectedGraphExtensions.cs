@@ -9,10 +9,8 @@ public static class DirectedGraphExtensions
     /// <param name="fileName"></param>
     public static void WriteToFile(this DirectedGraph graph, string fileName)
     {
-        using (var writer = new StreamWriter(fileName))
-        {
-            var serializer = new XmlSerializer(typeof(DirectedGraph));
-            serializer.Serialize(writer, graph);
-        }
+        using var writer = new StreamWriter(fileName);
+        var serializer = new XmlSerializer(typeof(DirectedGraph));
+        serializer.Serialize(writer, graph);
     }
 }
