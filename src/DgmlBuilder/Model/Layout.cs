@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OpenSoftware.DgmlTools.Model;
+﻿namespace OpenSoftware.DgmlTools.Model;
 
 public enum Layout
 {
