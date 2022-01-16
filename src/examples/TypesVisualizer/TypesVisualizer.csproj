@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+	<LangVersion>latest</LangVersion>
     <ProjectGuid>{E987B570-CC88-4001-AEBA-C52C2038EF90}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>OpenSoftware.DgmlTools</RootNamespace>
     <AssemblyName>OpenSoftware.DgmlTools.TypesVisualizer</AssemblyName>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>TypesVisualizer</AssemblyTitle>
     <Authors>Merijn de Jonge</Authors>
