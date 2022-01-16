@@ -1,4 +1,5 @@
 ﻿global using OpenSoftware.DgmlTools.Builders;
+global using OpenSoftware.DgmlTools.Comparers;
 global using OpenSoftware.DgmlTools.Model;
 global using System;
 global using System.Collections;

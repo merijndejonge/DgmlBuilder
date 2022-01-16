@@ -1,4 +1,4 @@
-﻿namespace OpenSoftware.DgmlTools;
+﻿namespace OpenSoftware.DgmlTools.Comparers;
 
 internal class NodeComparer : IEqualityComparer<Node>
 {
