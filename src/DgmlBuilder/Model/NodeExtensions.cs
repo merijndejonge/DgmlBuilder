@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace OpenSoftware.DgmlTools.Model;
+﻿namespace OpenSoftware.DgmlTools.Model;
 
 public static class NodeExtensions
 {

@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using OpenSoftware.DgmlTools.Model;
-
-namespace OpenSoftware.DgmlTools.Analyses;
+﻿namespace OpenSoftware.DgmlTools.Analyses;
 
 /// <summary>
 /// Analysis that adds a red cross icon to nodes which are not referenced

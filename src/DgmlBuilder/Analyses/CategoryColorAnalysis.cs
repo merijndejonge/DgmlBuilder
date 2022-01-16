@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using OpenSoftware.DgmlTools.Model;
-
-namespace OpenSoftware.DgmlTools.Analyses;
+﻿namespace OpenSoftware.DgmlTools.Analyses;
 
 /// <summary>
 /// Analysis that gives a specific color to each node of a particular category.

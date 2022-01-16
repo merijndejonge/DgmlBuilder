@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-
-namespace OpenSoftware.DgmlTools.Model;
+﻿namespace OpenSoftware.DgmlTools.Model;
 
 public static class DirectedGraphExtensions
 {

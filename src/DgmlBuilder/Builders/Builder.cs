@@ -1,5 +1,3 @@
-using System;
-
 namespace OpenSoftware.DgmlTools.Builders;
 
 public abstract class Builder

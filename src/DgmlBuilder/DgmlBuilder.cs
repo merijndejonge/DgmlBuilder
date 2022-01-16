@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using OpenSoftware.DgmlTools.Builders;
-using OpenSoftware.DgmlTools.Model;
-
-namespace OpenSoftware.DgmlTools;
+﻿namespace OpenSoftware.DgmlTools;
 
 public class DgmlBuilder
 {

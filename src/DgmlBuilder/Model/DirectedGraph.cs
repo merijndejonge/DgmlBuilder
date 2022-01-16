@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Xml.Serialization;
-
-namespace OpenSoftware.DgmlTools.Model;
+﻿namespace OpenSoftware.DgmlTools.Model;
 
 [XmlRoot("DirectedGraph", Namespace = "http://schemas.microsoft.com/vs/2009/dgml")]
 public class DirectedGraph

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using OpenSoftware.DgmlTools.Model;
-
 namespace OpenSoftware.DgmlTools.Builders;
 
 public abstract class StyleBuilder : Builder

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OpenSoftware.DgmlTools.Model;
+﻿namespace OpenSoftware.DgmlTools.Model;
 
 public interface IGraphAnalysis
 {

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using OpenSoftware.DgmlTools.Model;
-using System.Linq;
-
-namespace OpenSoftware.DgmlTools.Analyses;
+﻿namespace OpenSoftware.DgmlTools.Analyses;
 
 /// <summary>
 /// Class that sizes each node in the graph relative to the number of edges of the node.

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using OpenSoftware.DgmlTools.Model;
-
-namespace OpenSoftware.DgmlTools;
+﻿namespace OpenSoftware.DgmlTools;
 
 internal class LinkComparer : IEqualityComparer<Link>
 {
