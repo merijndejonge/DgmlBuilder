@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace OpenSoftware.DgmlTools.Model;
 
-namespace OpenSoftware.DgmlTools.Model
+public enum Layout
 {
-    public enum Layout
-    {
-        Unspecified = 0,
-        None, 
-        Sugiyama, 
-        ForceDirected, 
-        DependencyMatrix
-    }
+    Unspecified = 0,
+    None,
+    Sugiyama,
+    ForceDirected,
+    DependencyMatrix
 }

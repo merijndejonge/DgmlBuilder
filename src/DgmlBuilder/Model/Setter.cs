@@ -1,14 +1,11 @@
-using System.Xml.Serialization;
+namespace OpenSoftware.DgmlTools.Model;
 
-namespace OpenSoftware.DgmlTools.Model
+public class Setter
 {
-    public class Setter
-    {
-        [XmlAttribute]
-        public string Property { get; set; }
-        [XmlAttribute]
-        public string Value { get; set; }
-        [XmlAttribute]
-        public string Expression{ get; set; }
-    }
+    [XmlAttribute]
+    public string Property { get; set; }
+    [XmlAttribute]
+    public string Value { get; set; }
+    [XmlAttribute]
+    public string Expression { get; set; }
 }

@@ -1,10 +1,7 @@
-using System.Xml.Serialization;
+namespace OpenSoftware.DgmlTools.Model;
 
-namespace OpenSoftware.DgmlTools.Model
+public class CategoryRef
 {
-    public class CategoryRef
-    {
-        [XmlAttribute]
-        public string Ref { get; set; }
-    }
+    [XmlAttribute]
+    public string Ref { get; set; }
 }

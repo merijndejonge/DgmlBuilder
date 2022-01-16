@@ -1,24 +1,19 @@
-﻿using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
+﻿namespace OpenSoftware.DgmlTools.Model;
 
-namespace OpenSoftware.DgmlTools.Model
+public partial class Link : IXmlSerializable
 {
-    public partial class Link : IXmlSerializable
+    public XmlSchema GetSchema()
     {
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
+        return null;
+    }
 
-        public void ReadXml(XmlReader reader)
-        {
-            throw new System.NotImplementedException();
-        }
+    public void ReadXml(XmlReader reader)
+    {
+        throw new System.NotImplementedException();
+    }
 
-        public void WriteXml(XmlWriter writer)
-        {
-            this.ToXml(writer);
-        }
+    public void WriteXml(XmlWriter writer)
+    {
+        this.ToXml(writer);
     }
 }

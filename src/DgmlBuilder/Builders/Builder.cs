@@ -1,14 +1,11 @@
-using System;
+namespace OpenSoftware.DgmlTools.Builders;
 
-namespace OpenSoftware.DgmlTools.Builders
+public abstract class Builder
 {
-    public abstract class Builder
+    protected Builder(Type type)
     {
-        protected Builder(Type type)
-        {
-            Type = type;
-        }
-
-        public Type Type { get; }
+        Type = type;
     }
+
+    public Type Type { get; }
 }

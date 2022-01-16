@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
     <AssemblyName>OpenSoftware.DgmlBuilder</AssemblyName>
     <RootNamespace>OpenSoftware.DgmlTools</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

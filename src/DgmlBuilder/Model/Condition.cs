@@ -1,10 +1,7 @@
-using System.Xml.Serialization;
+namespace OpenSoftware.DgmlTools.Model;
 
-namespace OpenSoftware.DgmlTools.Model
+public class Condition
 {
-    public class Condition
-    {
-        [XmlAttribute]
-        public string Expression { get; set; }
-    }
+    [XmlAttribute]
+    public string Expression { get; set; }
 }

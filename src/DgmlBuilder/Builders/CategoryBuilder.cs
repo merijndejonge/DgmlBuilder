@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using OpenSoftware.DgmlTools.Model;
-
 namespace OpenSoftware.DgmlTools.Builders
 {
     public abstract class CategoryBuilder : Builder
@@ -28,18 +24,18 @@ namespace OpenSoftware.DgmlTools.Builders
 
         public bool Accept(object node)
         {
-            return _accept?.Invoke((T) node) ?? true;
+            return _accept?.Invoke((T)node) ?? true;
         }
 
         public override IEnumerable<Category> Build(object node)
         {
-            return _builder((T) node);
+            return _builder((T)node);
         }
     }
 
     public class CategoryBuilder<T> : CategoriesBuilder<T>
     {
-        public CategoryBuilder(Func<T, Category> builder, Func<T, bool> accept = null) : base(x => new[] {builder(x)}, accept)
+        public CategoryBuilder(Func<T, Category> builder, Func<T, bool> accept = null) : base(x => new[] { builder(x) }, accept)
         {
         }
     }
