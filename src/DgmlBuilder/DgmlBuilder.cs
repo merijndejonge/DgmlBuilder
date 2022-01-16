@@ -3,10 +3,10 @@
 public class DgmlBuilder
 {
     private readonly List<IGraphAnalysis> _graphAnalyses;
-    private List<Link> _links = new List<Link>();
-    private List<Node> _nodes = new List<Node>();
-    private List<Category> _categories = new List<Category>();
-    private List<Style> _styles = new List<Style>();
+    private List<Link> _links = new();
+    private List<Node> _nodes = new();
+    private List<Category> _categories = new();
+    private List<Style> _styles = new();
 
     public IEnumerable<NodeBuilder> NodeBuilders { get; set; }
     public IEnumerable<CategoryBuilder> CategoryBuilders { get; set; }
