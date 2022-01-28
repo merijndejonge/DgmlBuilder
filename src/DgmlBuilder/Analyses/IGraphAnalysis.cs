@@ -1,4 +1,4 @@
-﻿namespace OpenSoftware.DgmlTools.Model;
+﻿namespace OpenSoftware.DgmlTools.Analyses;
 
 public interface IGraphAnalysis
 {
