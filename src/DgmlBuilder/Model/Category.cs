@@ -8,4 +8,6 @@ public class Category
     public string Label { get; set; }
     [XmlAttribute]
     public string Background { get; set; }
+    [XmlAttribute]
+    public string Icon { get; set; }
 }
