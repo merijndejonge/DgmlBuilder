@@ -20,6 +20,10 @@ public partial class Link : ICustomPropertiesProvider
     public string Label { get; set; }
     [XmlAttribute]
     public string Description { get; set; }
+
+    [XmlElement("Category")]
+    public List<CategoryRef> CategoryRefs { get; set; } = new List<CategoryRef>();
+    
     [XmlIgnore]
     public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
 
